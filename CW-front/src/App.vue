@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="/" class="navbar-brand">Calendar</a>
+      <a href="/" class="navbar-brand">CaleNote</a>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/home" class="nav-link">
@@ -12,8 +12,8 @@
           <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link"
-            >User</router-link
+          <router-link v-if="currentUser" to="/visits" class="nav-link"
+            >Visits</router-link
           >
         </li>
       </div>
@@ -35,7 +35,7 @@
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
             <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
+            {{ currentUser.name }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -64,7 +64,7 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   methods: {
     logOut() {

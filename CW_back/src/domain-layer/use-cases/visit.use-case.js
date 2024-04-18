@@ -54,7 +54,6 @@ module.exports = class VisitUseCase {
     try {
       const visitDB = await visitRepository.getVisitsByUserId(id);
       const visits = visitDB.map((visitDb) => new Visit(visitDb));
-
       return visits;
     } catch (error) {
       throw error;

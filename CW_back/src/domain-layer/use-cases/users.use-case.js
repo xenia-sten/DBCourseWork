@@ -108,11 +108,11 @@ module.exports = class UserUseCase {
     const visitsUseCase = new VisitUseCase();
 
     if (!userId) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
-
+    
     try {
-      const jobsByUser = await visitsUseCase.getVisitsByUserId(userId);
-      return jobsByUser;
-
+      const visitsByUser = await visitsUseCase.getVisitsByUserId(userId);
+      return visitsByUser;
+    
     } catch (error) {
       throw error;
     }
