@@ -2,11 +2,11 @@
   <div class="visit">
     <div>
       <div>{{ visit.id }}</div>
-      <div><strong>Дата:</strong> {{ visit.visit_date }}</div>
+      <div><strong>Дата:</strong> {{ visitDate }}</div>
       <div><strong>Клиент:</strong> {{ clientName }}</div>
       <div><strong>Услуга:</strong> {{ templateName }}</div>
       <div><strong>Описание:</strong> {{ visit.description }}</div>
-      <div><strong>Дата создания:</strong> {{ visit.creation_date }}</div>
+      <div><strong>Дата создания:</strong> {{ createDate }}</div>
     </div>
     <div class="visit__btns">
       <!-- <my-button @click="$router.push(`/posts/${post.id}`)">
@@ -18,9 +18,10 @@
 </template>
 
 <script>
-import MyButton from './UI/MyButton.vue';
+import MyButton from "./UI/MyButton.vue";
 import ClientService from "../services/client.service";
 import TemplateService from "../services/template.service";
+import { format } from "../../node_modules/@formkit/tempo";
 
 export default {
   components: { MyButton },
@@ -32,12 +33,24 @@ export default {
   },
   data() {
     return {
-      clientName: '',
-      templateName: '',
-    }
+      clientName: "",
+      templateName: "",
+      visitDate: "",
+      createDate: "",
+    };
   },
 
   mounted() {
+    this.visitDate = format({
+      date: this.visit.visit_date,
+      format: "HH:mm DD-MM-YYYY",
+      tz: "Europe/Samara",
+    });
+    this.createDate = format({
+      date: this.visit.creation_date,
+      format: "HH:mm DD-MM-YYYY",
+      tz: "Europe/Samara",
+    });
     ClientService.getClient(this.visit.client_id).then(
       (response) => {
         this.clientName = response.data.name;
