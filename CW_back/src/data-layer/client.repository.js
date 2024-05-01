@@ -88,7 +88,6 @@ module.exports = class ClientsRepository {
       const deletedClient = await pool.query(query, value);
 
       if (!deletedClient.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(deletedClient.rows[0]);
 
       return deletedClient.rows[0];
 

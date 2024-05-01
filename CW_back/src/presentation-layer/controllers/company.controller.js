@@ -81,8 +81,26 @@ exports.addUserInCompany = async (req, res) => {
       return res.status(201).send(user_company);
     }
 
-  }catch (error){
+  } catch (error) {
     return res.status(400).send(error);
+  }
+};
+
+exports.deleteUserInCompany = async (req, res) => {
+  try {
+    const companyUseCase = new CompanyUseCase();
+
+    if (req?.params?.companiesId && req?.params?.userId) {
+      const companiesId = req.params.companiesId;
+      const userId = req.params.userId;
+
+      const user_company = await companyUseCase.deleteUserInCompany(companiesId, userId);
+
+      return res.status(204).send(user_company);
+    }
+
+  } catch (error) {
+    return res.status(404).send(error);
   }
 };
 

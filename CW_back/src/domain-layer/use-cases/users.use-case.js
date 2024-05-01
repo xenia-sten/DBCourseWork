@@ -1,9 +1,9 @@
 const UsersRepository = require("../../data-layer/users.repository");
 const { PropertyRequiredError, errors } = require("../../utils/error.util");
-const CompanyUseCase = require('./company.use-case');
+const User = require("../entities/users.entity");
+
 const JobsUseCase = require('./jobs.use-case');
 const VisitUseCase = require('./visit.use-case');
-const User = require("../entities/users.entity");
 
 module.exports = class UserUseCase {
 
@@ -45,7 +45,6 @@ module.exports = class UserUseCase {
   };
 
   async getUsersByCompanyId(id) {
-    //console.log("Зашли в сервисы юзеров");
     const usersRepository = new UsersRepository();
 
     if (!id) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
@@ -60,7 +59,7 @@ module.exports = class UserUseCase {
     }
   };
 
-  async getRolesByUserId(id){
+  async getRolesByUserId(id) {
     const usersRepository = new UsersRepository();
 
     if (!id) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
@@ -75,22 +74,24 @@ module.exports = class UserUseCase {
     }
   };
 
-  async getCompanyByUserId(userId) {
-    const companyUseCase = new CompanyUseCase();
+  async getCompaniesByUserId(userId) {
+    const CompaniesUseCase = require('./company.use-case');
+    const companyUseCase = new CompaniesUseCase();
 
     if (!userId) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
 
     try {
       const companiesByUser = await companyUseCase.getCompaniesByUserId(userId);
+
       return companiesByUser;
 
     } catch (error) {
       throw error;
     }
-
   }
 
   async getJobsByUserId(userId) {
+    
     const jobsUseCase = new JobsUseCase();
 
     if (!userId) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
@@ -108,11 +109,11 @@ module.exports = class UserUseCase {
     const visitsUseCase = new VisitUseCase();
 
     if (!userId) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
-    
+
     try {
       const visitsByUser = await visitsUseCase.getVisitsByUserId(userId);
       return visitsByUser;
-    
+
     } catch (error) {
       throw error;
     }
@@ -121,7 +122,7 @@ module.exports = class UserUseCase {
   async createUser(data) {
     const companyRepository = new UsersRepository();
 
-    if (!data){
+    if (!data) {
       throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
     }
 
@@ -137,7 +138,7 @@ module.exports = class UserUseCase {
   async updateUser(id, data) {
     const usersRepository = new UsersRepository();
 
-    if (!data || !id){
+    if (!data || !id) {
       throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
     }
 

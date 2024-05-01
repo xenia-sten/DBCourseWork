@@ -16,6 +16,11 @@
             >Visits</router-link
           >
         </li>
+        <li class="nav-item">
+          <router-link v-if="currentUser" to="/companies" class="nav-link"
+            >Companies</router-link
+          >
+        </li>
       </div>
 
       <div v-if="!currentUser" class="navbar-nav ml-auto">

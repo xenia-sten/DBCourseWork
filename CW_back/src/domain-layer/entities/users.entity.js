@@ -7,8 +7,7 @@ module.exports = class User {
       email: user.email,
       phone_number: user.phone_number,
       name: user.name,
-      password: user.password,
-      description: user.description
+      password: user.password
     };
     return this.user;
   }

@@ -9,7 +9,6 @@ module.exports = class VisitRepository {
       );
 
       if (visits.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      //console.log(visits);
       return visits.rows;
     } catch (error) {
       throw error;
@@ -34,7 +33,7 @@ module.exports = class VisitRepository {
 
   async getVisitsByUserId(id) {
     const value = [id];
-    const query = "SELECT * FROM calendar.visit WHERE user_id=$1";
+    const query = "SELECT * FROM calendar.visit WHERE user_id=$1 OR user_old_id=$1";
 
     try {
       const visits = await pool.query(query, value);
@@ -50,7 +49,7 @@ module.exports = class VisitRepository {
 
   async getVisitsByClientId(id) {
     const value = [id];
-    const query = "SELECT * FROM calendar.visit WHERE client_id=$1";
+    const query = "SELECT * FROM calendar.visit WHERE client_id=$1 OR client_old_id=$1";
 
     try {
       const visits = await pool.query(query, value);
@@ -107,7 +106,6 @@ module.exports = class VisitRepository {
       const deletedVisit = await pool.query(query, value);
 
       if (!deletedVisit.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      //console.log(deletedVisit.rows[0]);
 
       return deletedVisit.rows[0];
 

@@ -1,6 +1,7 @@
 const CompanyRepository = require("../../data-layer/company.repository");
 const Company = require("../entities/company.entity");
 const { PropertyRequiredError, errors } = require("../../utils/error.util");
+
 const UserUseCase = require('./users.use-case');
 const ClientUseCase = require('./client.use-case');
 
@@ -52,10 +53,8 @@ module.exports = class CompanyUseCase {
   };
 
   async getUsersByCompanyId(companyId) {
-    console.log("Зашли в сервисы компании");
     try {
       const userUseCase = new UserUseCase();
-
       const usersByCompany = await userUseCase.getUsersByCompanyId(companyId);
       return usersByCompany;
 
@@ -119,6 +118,21 @@ module.exports = class CompanyUseCase {
     }
   };
 
+  async deleteUserInCompany(companyId, userId) {
+    const companyRepository = new CompanyRepository();
+
+    if (!companyId || !userId) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
+    try {
+      const user_company = await companyRepository.deleteUserInCompany(companyId, userId);
+      //const company = await companyRepository.createCompany(this.reduceFields(fields));
+
+      return user_company;
+    } catch (error) {
+      throw error;
+    }
+
+  };
+
   async updateCompany(id, data) {
     const companyRepository = new CompanyRepository();
 
@@ -156,11 +170,10 @@ module.exports = class CompanyUseCase {
   async deleteCompany(id) {
     try {
 
-      if(!id) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
+      if (!id) throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
 
       const companyRepository = new CompanyRepository();
       const result = await companyRepository.deleteCompany(id);
-      console.log('Зашли в use-case');
       return result;
     } catch (error) {
       throw error;
@@ -168,40 +181,40 @@ module.exports = class CompanyUseCase {
   };
 
 
-  checkStringFieldsInsert(fields) {
-    const keys = fields.map(val => {
-      return Object.entries(val)[0][0];
-    });
+  // checkStringFieldsInsert(fields) {
+  //   const keys = fields.map(val => {
+  //     return Object.entries(val)[0][0];
+  //   });
 
-    const IS_VALID = true;
+  //   const IS_VALID = true;
 
-    for (let i = 0; i < keys.length; i++) {
-      if (!(keys[i]) in this.mapFields) return !IS_VALID;
-    }
+  //   for (let i = 0; i < keys.length; i++) {
+  //     if (!(keys[i]) in this.mapFields) return !IS_VALID;
+  //   }
 
-    return IS_VALID;
-  };
+  //   return IS_VALID;
+  // };
 
-  checkStringFields(fields) {
-    const IS_VALID = true;
-    const fieldsNormalized = fields
-      .map(el => Object.entries(el)[0][0]);
+  // checkStringFields(fields) {
+  //   const IS_VALID = true;
+  //   const fieldsNormalized = fields
+  //     .map(el => Object.entries(el)[0][0]);
 
-    fieldsNormalized.some(([key, _]) => {
-      if (!this.mapFields[key]) {
-        return !IS_VALID;
-      };
-    });
+  //   fieldsNormalized.some(([key, _]) => {
+  //     if (!this.mapFields[key]) {
+  //       return !IS_VALID;
+  //     };
+  //   });
 
-    return IS_VALID;
-  }
+  //   return IS_VALID;
+  // }
 
-  reduceFields(fields) {
-    return fields.reduce((acc, el) => {
-      const entriesEl = Object.entries(el);
-      acc[entriesEl[0][0]] = entriesEl[0][1];
+  // reduceFields(fields) {
+  //   return fields.reduce((acc, el) => {
+  //     const entriesEl = Object.entries(el);
+  //     acc[entriesEl[0][0]] = entriesEl[0][1];
 
-      return acc;
-    }, {});
-  };
+  //     return acc;
+  //   }, {});
+  // };
 };

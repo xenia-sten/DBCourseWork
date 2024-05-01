@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog" v-if="show" @click="hideDialog">
-    <div @click.stop class="dialog__content">
+  <div class="dialog" v-if="show" @click.self="hideDialog">
+    <div class="dialog__content">
       <slot></slot>
     </div>
   </div>
@@ -33,5 +33,8 @@ export default {
   min-height: 50px;
   min-width: 300px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: self-end;
 }
 </style>

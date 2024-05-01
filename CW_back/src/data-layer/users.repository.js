@@ -24,8 +24,6 @@ module.exports = class UsersRepository {
 
       if (!user.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
 
-      //console.log(user);
-
       return user.rows[0];
 
     } catch (error) {
@@ -34,7 +32,6 @@ module.exports = class UsersRepository {
   };
 
   async getUsersByCompanyId(id) {
-    //console.log("Зашли в репозитории юзеров");
     //const id = parseInt(req.params.id);
 
     const value = [id];
@@ -51,8 +48,6 @@ module.exports = class UsersRepository {
 
       if (users.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
 
-      console.log(users);
-
       return users.rows;
 
     } catch (error) {
@@ -68,8 +63,6 @@ module.exports = class UsersRepository {
       const role = await pool.query(query, value);
 
       if (role.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-
-      //console.log(role);
 
       return role.rows;
 
@@ -96,11 +89,11 @@ module.exports = class UsersRepository {
   };
 
   async updateUser(id, data) {
-    const { email, phone_number, name, password, description } = data;
+    const { email, phone_number, name } = data;
 
     const query =
-      "UPDATE calendar.users SET email=$1, phone_number=$2, name=$3, password=$4, description=$5 WHERE id=$6 RETURNING *";
-    const value = [email, phone_number, name, password, description, id];
+      "UPDATE calendar.users SET email=$1, phone_number=$2, name=$3 WHERE id=$4 RETURNING *";
+    const value = [email, phone_number, name, id];
 
     try {
       const user = await pool.query(query, value);
@@ -122,7 +115,6 @@ module.exports = class UsersRepository {
       const deletedUser = await pool.query(query, value);
 
       if (!deletedUser.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(deletedUser.rows[0]);
 
       return deletedUser.rows[0];
 

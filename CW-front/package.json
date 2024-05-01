@@ -20,6 +20,7 @@
     "popper.js": "^1.16.1",
     "vee-validate": "^4.12.6",
     "vue": "^3.2.13",
+    "vue-click-outside": "^1.1.0",
     "vue-router": "^4.3.0",
     "vuex": "^4.1.0",
     "yup": "^1.4.0"
@@ -42,7 +43,9 @@
       "plugin:vue/vue3-essential",
       "eslint:recommended"
     ],
-    "rules": {}
+    "rules": {
+      "vue/no-v-model-argument": "off"
+    }
   },
   "browserslist": [
     "> 1%",

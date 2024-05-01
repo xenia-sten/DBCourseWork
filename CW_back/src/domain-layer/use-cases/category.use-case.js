@@ -40,11 +40,9 @@ module.exports = class CategoryUseCase {
 
   async getCategoriesByJobId(id) {
     const categoryRepository = new CategoryRepository();
-
     try {
-      const categoryDB = await categoryRepository.getCategoryById(id);
+      const categoryDB = await categoryRepository.getCategoryByJobId(id);
       const categories = categoryDB.map((categoryDb) => new Category(categoryDb));
-
       return categories;
     } catch (error) {
       throw error;

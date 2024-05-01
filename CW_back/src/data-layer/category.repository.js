@@ -9,7 +9,6 @@ module.exports = class CategoryRepository {
       );
 
       if (categories.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(categories);
       return categories.rows;
     } catch (error) {
       throw error;
@@ -27,6 +26,20 @@ module.exports = class CategoryRepository {
 
       return category.rows[0];
 
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  async getCategoryByJobId(id) {
+    try {
+      const query = "SELECT * FROM calendar.category WHERE job_id = $1";
+      const value = [id];
+
+      const categories = await pool.query(query, value);
+
+      if (categories.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
+      return categories.rows;
     } catch (error) {
       throw error;
     }
@@ -75,7 +88,6 @@ module.exports = class CategoryRepository {
       const deletedCategory = await pool.query(query, value);
 
       if (!deletedCategory.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(deletedCategory.rows[0]);
 
       return deletedCategory.rows[0];
 

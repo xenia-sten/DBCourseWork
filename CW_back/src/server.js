@@ -16,6 +16,9 @@ const categoryRouter = require("./presentation-layer/routes/category.route");
 const serviceRouter = require("./presentation-layer/routes/service.route");
 const visitRouter = require("./presentation-layer/routes/visit.route");
 const authRouter = require("./presentation-layer/routes/auth.route");
+const clientOldRouter = require('./presentation-layer/routes/client_old.route');
+const userOldRouter = require("./presentation-layer/routes/users_old.route");
+const serviceOldRouter = require("./presentation-layer/routes/service_old.route");
 
 //routeInit(app, express);
 var corsOptions = {
@@ -41,7 +44,7 @@ app.use(function (req, res, next) {
 
 // const db = require("./models");
 // db.sequelize.sync(); 
-//TODO
+
 
 app.listen(config.PORT, () => {
   console.log(`Server is running on port ${config.PORT}.`);
@@ -55,3 +58,6 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/visits", visitRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/clients_old", clientOldRouter);
+app.use("/api/users_old", userOldRouter);
+app.use("/api/services_old", serviceOldRouter);

@@ -17,11 +17,6 @@ router.get("/:userId/visits", userController.getVisitsByUserId);
 
 router.get("/test/all", userController.allAccess);
 router.get(
-  "/test/user",
-  [authJwt.verifyToken],
-  userController.userBoard
-);
-router.get(
   "/test/admin",
   [authJwt.verifyToken, authJwt.isAdmin],
   userController.adminBoard

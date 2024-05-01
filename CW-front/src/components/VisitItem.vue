@@ -1,7 +1,7 @@
 <template>
   <div class="visit">
     <div>
-      <div>{{ visit.id }}</div>
+      <div><strong>Мастер:</strong> {{ userMaster }}</div>
       <div><strong>Дата:</strong> {{ visitDate }}</div>
       <div><strong>Клиент:</strong> {{ clientName }}</div>
       <div><strong>Услуга:</strong> {{ templateName }}</div>
@@ -20,8 +20,12 @@
 <script>
 import MyButton from "./UI/MyButton.vue";
 import ClientService from "../services/client.service";
+import ClientOldService from "../services/client_old.service";
 import TemplateService from "../services/template.service";
 import { format } from "../../node_modules/@formkit/tempo";
+import userService from "@/services/user.service";
+import userOldService from "@/services/user-old.service";
+import templateOldService from "@/services/template_old.service";
 
 export default {
   components: { MyButton },
@@ -37,7 +41,103 @@ export default {
       templateName: "",
       visitDate: "",
       createDate: "",
+      userMaster: "",
     };
+  },
+
+  methods: {
+    getClientName() {
+      ClientService.getClient(this.visit.client_id).then(
+        (response) => {
+          this.clientName = response.data.name;
+        },
+        (error) => {
+          this.client =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+    getClientOldName() {
+      ClientOldService.getClientOld(this.visit.client_old_id).then(
+        (response) => {
+          this.clientName = response.data.name;
+        },
+        (error) => {
+          this.client =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+
+    getUserName() {
+      userService.getUserById(this.visit.user_id).then(
+        (response) => {
+          this.userMaster = response.data.name;
+        },
+        (error) => {
+          this.userName =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+    getUserOldName() {
+      userOldService.getUserOldById(this.visit.user_old_id).then(
+        (response) => {
+          this.userMaster = response.data.name;
+        },
+        (error) => {
+          this.userName =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+
+    getTempName() {
+      TemplateService.getTemplate(this.visit.template_id).then(
+        (response) => {
+          this.templateName = response.data.name;
+        },
+        (error) => {
+          this.templateName =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
+    getTempOldName() {
+      templateOldService.getTemplateOld(this.visit.template_old_id).then(
+        (response) => {
+          this.templateName = response.data.name;
+        },
+        (error) => {
+          this.templateName =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
   },
 
   mounted() {
@@ -51,32 +151,24 @@ export default {
       format: "HH:mm DD-MM-YYYY",
       tz: "Europe/Samara",
     });
-    ClientService.getClient(this.visit.client_id).then(
-      (response) => {
-        this.clientName = response.data.name;
-      },
-      (error) => {
-        this.client =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
-    TemplateService.getTemplate(this.visit.template_id).then(
-      (response) => {
-        this.templateName = response.data.name;
-      },
-      (error) => {
-        this.templateName =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
+
+    if (this.visit.client_id == null) {
+      this.getClientOldName();
+    } else {
+      this.getClientName();
+    }
+
+    if (this.visit.user_id == null) {
+      this.getUserOldName();
+    } else {
+      this.getUserName();
+    }
+
+    if (this.visit.template_id == null) {
+      this.getTempOldName();
+    } else {
+      this.getTempName();
+    }
   },
 };
 </script>

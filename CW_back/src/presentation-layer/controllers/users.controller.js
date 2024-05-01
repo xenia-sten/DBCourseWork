@@ -28,7 +28,7 @@ exports.getCompanyByUserId = async (req, res) => {
   try {
     if (req?.params?.userId) {
       const userId = req.params.userId;
-      const companies = await userUseCase.getCompanyByUserId(userId);
+      const companies = await userUseCase.getCompaniesByUserId(userId);
 
       return res.status(200).send(companies);
     }
@@ -98,9 +98,9 @@ exports.updateUser = async (req, res) => {
   try {
     const userUseCase = new UsersUseCase();
     const data = req.body;
-    const id = req.params.id;
+    const id = req.params.userId;
 
-    if (data || req?.params?.id) {
+    if (data || req?.params?.userId) {
       const user = await userUseCase.updateUser(id, data);
 
       return res.status(200).send(user);
@@ -127,10 +127,6 @@ exports.deleteUser = async (req, res) => {
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
-};
-
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
 };
 
 exports.adminBoard = (req, res) => {

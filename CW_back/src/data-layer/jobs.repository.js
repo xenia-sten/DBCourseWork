@@ -10,7 +10,6 @@ module.exports = class JobsRepository {
       );
 
       if (jobs.rowCount == 0) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      //console.log(jobs);
       return jobs.rows;
     } catch (error) {
       throw error;
@@ -92,7 +91,6 @@ module.exports = class JobsRepository {
       const deletedJob = await pool.query(query, value);
 
       if (!deletedJob.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(deletedJob.rows[0]);
 
       return deletedJob.rows[0];
 

@@ -1,11 +1,13 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "./components/Home.vue";
-import Login from "./components/Login.vue";
-import Register from "./components/Register.vue";
+import Home from "./components/pages/Home.vue";
+import Login from "./components/pages/Login.vue";
+import Register from "./components/pages/Register.vue";
+import ClientPage from "./components/pages/ClientPage.vue";
 // lazy-loaded
-const Profile = () => import("./components/Profile.vue")
+const Profile = () => import("./components/pages/ProfilePage.vue")
 const BoardAdmin = () => import("./components/BoardAdmin.vue")
-const VisitsPage = () => import("./components/VisitsPage.vue")
+const VisitsPage = () => import("./components/pages/VisitsPage.vue")
+const CompaniesPage = () => import("./components/pages/CompaniesPage.vue");
 
 const routes = [
   {
@@ -42,6 +44,16 @@ const routes = [
     name: "visits",
     // lazy-loaded
     component: VisitsPage,
+  },
+  {
+    path: '/companies',
+    name: "companies",
+    component: CompaniesPage,
+  },
+  {
+    path: "/clients/:id",
+    name: "clientPage",
+    component: ClientPage,
   },
 ];
 

@@ -2,12 +2,11 @@
 const { pool } = require('../../sql/execute-sql');
 const { DataBaseError, errors } = require("../utils/error.util");
 //const TABLE = "company";
-//console.log(pool);
+
 
 module.exports = class CompaniesRepository {
   async getCompanies() {
     try {
-      console.log('Зашли repository');
       //const companies = await knex.withSchema('calendar').select().table('company');
       const companies = await pool.query(
         "SELECT * FROM calendar.company"
@@ -25,7 +24,6 @@ module.exports = class CompaniesRepository {
 
   async getCompanyById(id) {
     //const id = parseInt(req.params.id);
-    console.log('Зашли repository');
     const value = [id];
     const query = "SELECT * FROM calendar.company WHERE id=$1";
 
@@ -43,7 +41,6 @@ module.exports = class CompaniesRepository {
 
   async getCompaniesByUserId(id) {
     //const id = parseInt(req.params.id);
-    console.log('Зашли в репозитории компаний');
 
     const value = [id];
     const query = `
@@ -67,7 +64,6 @@ module.exports = class CompaniesRepository {
   };
 
   async createCompany(data) {
-    console.log('Зашли repository');
     const { name, description } = data;
     // const { name, description } = req.body;
     const query =
@@ -85,7 +81,6 @@ module.exports = class CompaniesRepository {
   };
 
   async addUserInCompany(companyId, userId) {
-    console.log('Зашли repository');
     //const { name, description } = data;
     // const { name, description } = req.body;
     const query =
@@ -95,6 +90,23 @@ module.exports = class CompaniesRepository {
     try {
       const user_company = await pool.query(query, values);
 
+      return user_company.rows[0];
+
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  async deleteUserInCompany(companyId, userId){
+    const query =
+      "DELETE FROM calendar.users_company WHERE user_id=$1 and company_id=$2 RETURNING user_id";
+    const value = [userId, companyId];
+
+    try {
+      const user_company = await pool.query(query, value);
+
+      if (!user_company.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
+      
       return user_company.rows[0];
 
     } catch (error) {
@@ -124,7 +136,6 @@ module.exports = class CompaniesRepository {
   };
 
   async deleteCompany(id) {
-    console.log('Зашли в repos');
     //const id = parseInt(req.params.id);
     const value = [id];
     const query = "DELETE FROM calendar.company WHERE id=$1 RETURNING id";
@@ -133,7 +144,6 @@ module.exports = class CompaniesRepository {
       const deletedCompany = await pool.query(query, value);
 
       if (!deletedCompany.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      //console.log(deletedCompany.rows[0]);
       
       return deletedCompany.rows[0];
 

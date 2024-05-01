@@ -89,7 +89,6 @@ module.exports = class ServiceRepository {
       const deletedService = await pool.query(query, value);
 
       if (!deletedService.rows[0]) throw new DataBaseError(errors.get("DATA_BASE_ERROR"));
-      console.log(deletedService.rows[0]);
 
       return deletedService.rows[0];
 
