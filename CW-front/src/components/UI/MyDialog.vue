@@ -35,6 +35,6 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: self-end;
+  align-items: center;
 }
 </style>

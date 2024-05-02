@@ -93,7 +93,6 @@ export default {
     setActiveCompany(company, currentId) {
       this.currentCompany = company;
       this.currentId = company ? currentId : -1;
-      console.log(this.currentCompany);
       this.getUsersByCompId(company.id);
       this.getClients(company.id);
     },

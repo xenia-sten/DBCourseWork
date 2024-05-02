@@ -64,7 +64,7 @@ module.exports = class CategoryUseCase {
   async createCategory(data) {
     const categoryRepository = new CategoryRepository();
 
-    if (!data.fields) {
+    if (!data) {
       throw new PropertyRequiredError(errors.get("NO_PROPERTY"));
     }
 

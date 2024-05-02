@@ -3,6 +3,7 @@ import Home from "./components/pages/Home.vue";
 import Login from "./components/pages/Login.vue";
 import Register from "./components/pages/Register.vue";
 import ClientPage from "./components/pages/ClientPage.vue";
+import ServicesPage from "./components/pages/ServicesPage.vue";
 // lazy-loaded
 const Profile = () => import("./components/pages/ProfilePage.vue")
 const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -54,6 +55,11 @@ const routes = [
     path: "/clients/:id",
     name: "clientPage",
     component: ClientPage,
+  },
+  {
+    path: '/services',
+    name: "services",
+    component: ServicesPage,
   },
 ];
 
