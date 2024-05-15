@@ -176,7 +176,7 @@ export default {
 <style scoped>
 .visit {
   padding: 15px;
-  border: 2px solid teal;
+  border: 2px solid #343A40;
   border-radius: 5px;
   margin-top: 15px;
   display: flex;

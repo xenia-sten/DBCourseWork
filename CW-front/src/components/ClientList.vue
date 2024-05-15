@@ -109,7 +109,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 2px solid teal;
+  border: 2px solid #343a40;
   border-radius: 5px;
   min-width: 300px;
   position: static;

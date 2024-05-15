@@ -47,10 +47,10 @@ module.exports = class ServiceRepository {
   };
 
   async createService(data) {
-    const { name, price, duration, user_id, company_id, category_id, description } = data;
+    const { name, price, duration, category_id, description } = data;
     const query =
-      "INSERT INTO calendar.service_template(name, price, duration, user_id, company_id, category_id, description)  VALUES($1, $2, $3, $4, $5 ,$6, $7) RETURNING id";
-    const values = [name, price, duration, user_id, company_id, category_id, description];
+      "INSERT INTO calendar.service_template(name, price, duration, category_id, description)  VALUES($1, $2, $3, $4, $5) RETURNING id";
+    const values = [name, price, duration, category_id, description];
 
     try {
       const service = await pool.query(query, values);
@@ -63,11 +63,11 @@ module.exports = class ServiceRepository {
   };
 
   async updateService(id, data) {
-    const { name, price, duration, user_id, company_id, category_id, description } = data;
+    const { name, price, duration, category_id, description } = data;
 
     const query =
-      "UPDATE calendar.service_template SET name=$1, price=$2, duration=$3, user_id=$4, company_id=$5, category_id=$6, description=$7 WHERE id=$8 RETURNING *";
-    const value = [name, price, duration, user_id, company_id, category_id, description, id];
+      "UPDATE calendar.service_template SET name=$1, price=$2, duration=$3, category_id=$4, description=$5 WHERE id=$6 RETURNING *";
+    const value = [name, price, duration, category_id, description, id];
 
     try {
       const service = await pool.query(query, value);

@@ -64,8 +64,25 @@
         </my-button>
         <!-- eslint-disable -->
         <my-dialog v-model:show="visibleCreateService">
-          <!-- <category-form @create="createCategory" /> -->
+          <service-form @create="createService" />
         </my-dialog>
+        <ul class="list-group" v-if="this.services.length > 0">
+          <li
+            class="jobItem serviceItem list-group-item"
+            v-for="service in services"
+            :key="service.id"
+          >
+            <p><b>Название: </b>{{ service.name }}</p>
+            <p><b>Цена: </b>{{ service.price }}</p>
+            <p><b>Длительность: </b>{{ `${service.duration.hours ?? '0'}:${service.duration.minutes ?? '00'}` }}</p>
+            <p><b>Описание: </b>{{ service.description }}</p>
+            <router-link
+              :to="'/services/' + service.id"
+              class="badge badge-warning"
+              >Edit</router-link
+            >
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -79,9 +96,11 @@ import JobCreateForm from "../JobCreateForm.vue";
 import jobsServices from "@/services/jobs.services";
 import categoryServices from "@/services/category.services";
 import CategoryForm from "../CategoryForm.vue";
+import ServiceForm from '../ServiceForm.vue';
+import templateService from "@/services/template.service";
 
 export default {
-  components: { MyButton, MyDialog, JobCreateForm, CategoryForm },
+  components: { MyButton, MyDialog, JobCreateForm, CategoryForm, ServiceForm },
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Services",
   data() {
@@ -95,6 +114,8 @@ export default {
       categories: [],
       currentCategory: null,
       currentIdCategory: -1,
+      services: [],
+      parseDuration: '',
     };
   },
 
@@ -112,6 +133,14 @@ export default {
         .getCategoriesByJob(this.currentJob.id)
         .then((response) => {
           this.categories = response.data;
+        })
+        .catch((e) => console.log(e));
+    },
+    getServicesByCategory() {
+      categoryServices
+        .getTemplByCategory(this.currentCategory.id)
+        .then((response) => {
+          this.services = response.data;
         })
         .catch((e) => console.log(e));
     },
@@ -142,6 +171,22 @@ export default {
         .catch((e) => console.log(e));
       this.visibleCreateCategory = false;
     },
+    createService(service){
+      var data = {
+        category_id: this.currentCategory.id,
+        name: service.name,
+        price: service.price,
+        duration: service.duration,
+        description: service.description
+      };
+      templateService.addTempalte(data).then(
+        (response) => {
+          console.log(response);
+        }
+      ).catch(e => console.log(e));
+      this.getServicesByCategory();
+      this.visibleCreateService = false;
+    },
 
     removeJob(job) {
       jobsServices
@@ -169,6 +214,7 @@ export default {
     setActiveCategory(category, currentIdCategory) {
       this.currentCategory = category;
       this.currentIdCategory = category ? currentIdCategory : -1;
+      this.getServicesByCategory();
     },
 
     showDialogCreateJob() {
@@ -177,7 +223,7 @@ export default {
     showDialogCreateCateg() {
       this.visibleCreateCategory = true;
     },
-    showDialogCreateService(){
+    showDialogCreateService() {
       this.visibleCreateService = true;
     },
   },
@@ -200,12 +246,16 @@ export default {
   margin: auto;
 }
 .jobItem {
-  border: 2px solid teal;
+  border: 2px solid #343A40;
   border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: static;
+}
+.serviceItem{
+  flex-direction: column;
+  align-items: flex-start;
 }
 .lists {
   display: flex;

@@ -89,7 +89,7 @@ form {
 }
 select {
   width: 100%;
-  border: 1px solid teal;
+  border: 1px solid #343A40;
   padding: 10px 15px;
   margin-top: 15px;
 }

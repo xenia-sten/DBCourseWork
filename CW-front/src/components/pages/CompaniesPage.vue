@@ -187,7 +187,7 @@ export default {
   margin: auto;
 }
 .companyItem {
-  border: 2px solid teal;
+  border: 2px solid #343A40;
   border-radius: 5px;
 }
 .lists {

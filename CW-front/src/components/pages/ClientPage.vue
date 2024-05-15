@@ -97,7 +97,7 @@ export default {
         .updateClient(this.client.id, data)
         .then((response) => {
           console.log(response.data);
-          this.message = "The tutorial was updated successfully!";
+          this.message = "The client was updated successfully!";
         })
         .catch((e) => {
           console.log(e);
