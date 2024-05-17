@@ -35,6 +35,10 @@ class UserService {
   updateUser(id, data){
     return axios.patch(API_URL + `${id}`, data, { headers: authHeader() });
   }
+
+  deleteUser(id){
+    return axios.delete(API_URL + `${id}`, { headers: authHeader() });
+  }
 }
 
 export default new UserService();

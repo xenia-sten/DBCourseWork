@@ -12,17 +12,17 @@
           <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/visits" class="nav-link"
+          <router-link v-if="currentUser & !showAdminBoard" to="/visits" class="nav-link"
             >Visits</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/companies" class="nav-link"
+          <router-link v-if="currentUser & !showAdminBoard" to="/companies" class="nav-link"
             >Companies</router-link
           >
         </li>
         <li class="nav-item">
-          <router-link v-if="currentUser" to="/services" class="nav-link"
+          <router-link v-if="currentUser & !showAdminBoard" to="/services" class="nav-link"
             >Services</router-link
           >
         </li>

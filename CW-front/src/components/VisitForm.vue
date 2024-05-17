@@ -50,7 +50,7 @@
     <my-input
       v-model="visit.visit_date"
       type="text"
-      placeholder="Введите дату"
+      placeholder="Дата(HH:mm DD-MM-YYYY)"
     />
     <my-input v-model="visit.description" type="text" placeholder="Описание" />
     <my-button

@@ -32,8 +32,6 @@ module.exports = class UsersRepository {
   };
 
   async getUsersByCompanyId(id) {
-    //const id = parseInt(req.params.id);
-
     const value = [id];
     const query = `
     SELECT users.*
